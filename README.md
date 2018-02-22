@@ -21,11 +21,11 @@ Uses Python3 + Tensorflow 1.4
 
 python inference_video_face.py <args>
   
---mode (Video / Camera / IP)
---file_path (Optional : Video File Path. Required if mode = Video only)
---uname (Optional: Requirded only if mode is IP for streaming from IP camera. Username for RTSP)
---secret (Optional: Requirded only if mode is IP for streaming from IP camera. Password for RTSP)
---addr (Optional: Requirded only if mode is IP for streaming from IP camera. ip address of camera
+- --mode (Video / Camera / IP)
+- --file_path (Optional : Video File Path. Required if mode = Video only)
+- --uname (Optional: Requirded only if mode is IP for streaming from IP camera. Username for RTSP)
+- --secret (Optional: Requirded only if mode is IP for streaming from IP camera. Password for RTSP)
+- --addr (Optional: Requirded only if mode is IP for streaming from IP camera. ip address of camera
 
 
 
