@@ -448,10 +448,10 @@ def visualize_boxes_and_labels_on_image_array(image,
     process_this_frame = not process_this_frame
 
     for (top, right, bottom, left), name in zip(face_locations, face_names):
-        if name in ('POI', 'PERSON OF INTEREST'):
-            color = 'Red'
-        elif name in ('UNKNOWN', 'unknown'):
-            color = 'Snow'
+        # if name in ('POI', 'PERSON OF INTEREST'):
+        #     color = 'Red'
+        # elif name in ('UNKNOWN', 'unknown'):
+        #     color = 'Snow'
 
         # top *= 2
         # right *= 2

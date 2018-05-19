@@ -72,39 +72,40 @@ def run_yolo(out_filename):
               out = cv2.VideoWriter(out_filename, 0, 25.0, (w, h))
 
           # if int(cap.get(cv2.CAP_PROP_POS_FRAMES)) % 10 == 0:
-          image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-          # result image with boxes and labels on it.]
-          image_np_expanded = np.expand_dims(image_np, axis=0)
-          image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
-          # Each box represents a part of the image where a particular object was detected.
-          boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
-          scores = detection_graph.get_tensor_by_name('detection_scores:0')
-          classes = detection_graph.get_tensor_by_name('detection_classes:0')
-          num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-          # Actual detection.
-          start_time = time.time()
-          (boxes, scores, classes, num_detections) = sess.run(
-              [boxes, scores, classes, num_detections],
-              feed_dict={image_tensor: image_np_expanded})
-          elapsed_time = time.time() - start_time
-          sys.stdout.write('Inference Time Cost: %s\r' % (format(elapsed_time)))
-          sys.stdout.flush()
-          # Do a gamma correction for darker images
-          # pass the gamma corrected image frame
-          #TODO Revisit this -- Face Rec not working on gamma correction
-          # gamma = 1.5
-          # adjusted = adjust_gamma(image, gamma=gamma)
-          vis_util.visualize_boxes_and_labels_on_image_array(
-              image,
-              np.squeeze(boxes),
-              np.squeeze(classes).astype(np.int32),
-              np.squeeze(scores),
-              category_index,
-              known_face_encodings,
-              known_face_names,
-              use_normalized_coordinates=True,
-              line_thickness=4)
-          out.write(image)
+          if ret == True:
+              image_np = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+              # result image with boxes and labels on it.]
+              image_np_expanded = np.expand_dims(image_np, axis=0)
+              image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
+              # Each box represents a part of the image where a particular object was detected.
+              boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
+              scores = detection_graph.get_tensor_by_name('detection_scores:0')
+              classes = detection_graph.get_tensor_by_name('detection_classes:0')
+              num_detections = detection_graph.get_tensor_by_name('num_detections:0')
+              # Actual detection.
+              start_time = time.time()
+              (boxes, scores, classes, num_detections) = sess.run(
+                  [boxes, scores, classes, num_detections],
+                  feed_dict={image_tensor: image_np_expanded})
+              elapsed_time = time.time() - start_time
+              sys.stdout.write('Inference Time Cost: %s\r' % (format(elapsed_time)))
+              sys.stdout.flush()
+              # Do a gamma correction for darker images
+              # pass the gamma corrected image frame
+              #TODO Revisit this -- Face Rec not working on gamma correction
+              # gamma = 1.5
+              # adjusted = adjust_gamma(image, gamma=gamma)
+              vis_util.visualize_boxes_and_labels_on_image_array(
+                  image,
+                  np.squeeze(boxes),
+                  np.squeeze(classes).astype(np.int32),
+                  np.squeeze(scores),
+                  category_index,
+                  known_face_encodings,
+                  known_face_names,
+                  use_normalized_coordinates=True,
+                  line_thickness=4)
+              out.write(image)
 
         cap.release()
         out.release()
@@ -137,7 +138,7 @@ for root, dirs, filenames in os.walk(source):
         poi_image = face_recognition.load_image_file(fullpath)
         poi_image_face_encoding = face_recognition.face_encodings(poi_image)[0]
         known_face_encodings.append(poi_image_face_encoding)
-        known_face_names.append('PERSON OF INTEREST')
+        known_face_names.append(os.path.splitext(filename)[0])
 
 
 ## Set Options as per arguments
@@ -158,7 +159,6 @@ elif args.mode in ('ip', 'IP'):
     if args.addr and args.uname and args.secret:
         url = 'rtsp://' + args.uname + ':' + args.secret + '@' + args.addr
         cap = cv2.VideoCapture(url)
-    # cap = cv2.VideoCapture('rtsp://admin:admin@192.168.28.247')
 else:
     print('Use -h for help')
     sys.exit()
