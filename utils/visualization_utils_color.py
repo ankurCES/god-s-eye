@@ -423,10 +423,6 @@ def visualize_boxes_and_labels_on_image_array(image,
 
     #comparison algo starts here
 
-    #Resize image to a smaller size for faster processing
-    # resized_frame = cv2.resize(image, (0, 0), fx=0.5, fy=0.5)
-    # rgb_frame = resized_frame[:, :, ::-1]
-
     rgb_frame = image[:, :, ::-1]
 
     if process_this_frame:
@@ -448,15 +444,6 @@ def visualize_boxes_and_labels_on_image_array(image,
     process_this_frame = not process_this_frame
 
     for (top, right, bottom, left), name in zip(face_locations, face_names):
-        # if name in ('POI', 'PERSON OF INTEREST'):
-        #     color = 'Red'
-        # elif name in ('UNKNOWN', 'unknown'):
-        #     color = 'Snow'
-
-        # top *= 2
-        # right *= 2
-        # bottom *= 2
-        # left *= 2
         (xmin, xmax, ymin, ymax) = (left, right, top, bottom)
         draw_bounding_box_on_image_array(
                         image,
