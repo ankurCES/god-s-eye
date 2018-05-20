@@ -445,16 +445,17 @@ def visualize_boxes_and_labels_on_image_array(image,
 
     for (top, right, bottom, left), name in zip(face_locations, face_names):
         (xmin, xmax, ymin, ymax) = (left, right, top, bottom)
-        draw_bounding_box_on_image_array(
-                        image,
-                        ymin,
-                        xmin,
-                        ymax,
-                        xmax,
-                        color=color,
-                        thickness=line_thickness,
-                        display_str_list=[name],
-                        use_normalized_coordinates=False)
+        if name != 'UNKNOWN':
+            draw_bounding_box_on_image_array(
+                            image,
+                            ymin,
+                            xmin,
+                            ymax,
+                            xmax,
+                            color=color,
+                            thickness=line_thickness,
+                            display_str_list=[name],
+                            use_normalized_coordinates=False)
 
 
     if keypoints is not None:
